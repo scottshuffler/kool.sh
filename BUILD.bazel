@@ -1,0 +1,19 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+load("@bazel_gazelle//:def.bzl", "gazelle")
+
+# gazelle:prefix github.com/example/kool.sh
+gazelle(name = "gazelle")
+
+go_library(
+    name = "kool.sh_lib",
+    srcs = ["main.go"],
+    embedsrcs = ["templates/index.html.tmpl"],
+    importpath = "github.com/scottshuffler/kool.sh",
+    visibility = ["//visibility:private"],
+)
+
+go_binary(
+    name = "kool.sh",
+    embed = [":kool.sh_lib"],
+    visibility = ["//visibility:public"],
+)
